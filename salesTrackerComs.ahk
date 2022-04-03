@@ -242,6 +242,7 @@ return
 
 getLatestReleaseInfo()
 {
+    run updater.ahk
 	Process, Close, salesTrackerComs.exe
 	FileDelete, %A_ScriptDir%\salesTrackerComs.exe
 	Sleep, 2000
