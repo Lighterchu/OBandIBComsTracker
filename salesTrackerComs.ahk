@@ -242,19 +242,36 @@ return
 
 getLatestReleaseInfo()
 {
+    
+    
+    if !FileExist(A_ScriptDir . "\updater.ahk")
+        msgBox, the updater is not here, please dont remove
+        getUpdaterIfRemove()
+        
+    
+
     run updater.ahk
-	Process, Close, salesTrackerComs.exe
-	FileDelete, %A_ScriptDir%\salesTrackerComs.exe
-	Sleep, 2000
-	run git clone https://github.com/bennyboy743/OBandIBComsTracker.git
-	Sleep, 2000
-	FileMove, %A_ScriptDir%\OBandIBComsTracker\salesTrackerComs.exe, %A_ScriptDir%
-	Sleep, 2000
-	FileRemoveDir, %A_ScriptDir%\OBandIBComsTracker, 1
-	run salesTrackerComs.exe
+	; Process, Close, salesTrackerComs.ahk
+    ; FileDelete, %A_ScriptDir%\salesTrackerComs.exe
+	; Sleep, 2000
+	; run git clone https://github.com/bennyboy743/OBandIBComsTracker.git
+	; Sleep, 2000
+	; FileMove, %A_ScriptDir%\OBandIBComsTracker\salesTrackerComs.exe, %A_ScriptDir%
+    ; Sleep, 2000
+	; FileRemoveDir, %A_ScriptDir%\OBandIBComsTracker, 1
+    ; run salesTrackerComs.exe
+    
 
 	
 	
+}
+
+getUpdaterIfRemove(){
+    run git clone https://github.com/bennyboy743/OBandIBComsTracker.git
+    Sleep, 2000
+    FileMove, %A_ScriptDir%\OBandIBComsTracker\updater.ahk, %A_ScriptDir%
+    Sleep, 2000
+    FileRemoveDir, %A_ScriptDir%\OBandIBComsTracker, 1
 }
 getLatestReleaseInfo()
 
