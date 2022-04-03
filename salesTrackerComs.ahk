@@ -175,6 +175,7 @@ Gui, Add, Edit, r1 vtotalAmount x130 y450 w100 +ReadOnly,
 Gui, Add, Text, x20 y500 cRed , Edit Total Coms: 
 Gui, Add, Edit, r1 vEdittotalAmount x130 y500 w100,
 Gui, Add, Button, w100 h40 y540 x0 gSaveBtn, Save Edit
+Gui, Add, Button, w100 h40 y540 x+30 gUpdate, Update App
 
 
 
@@ -233,6 +234,28 @@ HideComPage(){
   GuiControl, Hide, drop50
   
 }
+
+Update:
+    getLatestReleaseInfo()
+
+return
+
+getLatestReleaseInfo()
+{
+	Process, Close, salesTrackerComs.exe
+	FileDelete, %A_ScriptDir%\salesTrackerComs.exe
+	Sleep, 2000
+	run git clone https://github.com/bennyboy743/OBandIBComsTracker.git
+	Sleep, 2000
+	FileMove, %A_ScriptDir%\OBandIBComsTracker\salesTrackerComs.exe, %A_ScriptDir%
+	Sleep, 2000
+	FileRemoveDir, %A_ScriptDir%\OBandIBComsTracker, 1
+	run salesTrackerComs.exe
+
+	
+	
+}
+getLatestReleaseInfo()
 
 ;--------------------------------
 
