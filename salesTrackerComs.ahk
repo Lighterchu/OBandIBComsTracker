@@ -168,13 +168,18 @@ Gui, tab,
 
 
 
-Gui, Add, Edit, r1 vtotalAmount x110 y450 w100, 
-
-
-
-
-
 Gui, Add, Text, x20 y450 cRed , Total Coms: 
+Gui, Add, Edit, r1 vtotalAmount x130 y450 w100 +ReadOnly, 
+
+
+Gui, Add, Text, x20 y500 cRed , Edit Total Coms: 
+Gui, Add, Edit, r1 vEdittotalAmount x130 y500 w100,
+Gui, Add, Button, w100 h40 y540 x0 gSaveBtn, Save Edit
+
+
+
+
+
 
 
 
@@ -201,6 +206,13 @@ AddToTotal(amount)
  ;msgBox, %hight%
 
 }
+
+SaveBtn:
+    Gui, submit, nohide
+    amountTotal = %EdittotalAmount%
+    GuiControl, , totalAmount, $%EdittotalAmount%
+    
+return
 
 init(){
  ;NBNPage.nbnPlans.Insert("test")
