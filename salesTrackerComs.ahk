@@ -212,6 +212,7 @@ SaveBtn:
     amountTotal = %EdittotalAmount%
     GuiControl, , totalAmount, $%EdittotalAmount%
     
+    
 return
 
 init(){
