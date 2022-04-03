@@ -18,7 +18,7 @@ Gui, Font,, Lucida Fax
 
 
 Gui, Add, Text,cRed , Track Your Coms, Put You're Heart Towards Sales
-Gui, Add, Text,cblue y5 x+100 , Test Version 1.0.1
+Gui, Add, Text,cblue y5 x+100 , Test Version 1.0.2
 ;Gui, Add, DropDownList, w182 y30 x50 vTemp AltSubmit, Coms Catergory  || MOBILES SIMS | HARDWARE |  HANDSETS
 
 
