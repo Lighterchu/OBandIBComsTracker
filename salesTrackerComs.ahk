@@ -244,9 +244,9 @@ getLatestReleaseInfo()
 {
     
     
-    if !FileExist(A_ScriptDir . "\updater.ahk")
-        msgBox, the updater is not here, please dont remove
-        getUpdaterIfRemove()
+    ; if !FileExist(A_ScriptDir . "\updater.ahk")
+    ;     msgBox, the updater is not here, please dont remove
+    ;     getUpdaterIfRemove()
         
     
 
@@ -266,13 +266,13 @@ getLatestReleaseInfo()
 	
 }
 
-getUpdaterIfRemove(){
-    run git clone https://github.com/bennyboy743/OBandIBComsTracker.git
-    Sleep, 2000
-    FileMove, %A_ScriptDir%\OBandIBComsTracker\updater.ahk, %A_ScriptDir%
-    Sleep, 2000
-    FileRemoveDir, %A_ScriptDir%\OBandIBComsTracker, 1
-}
+; getUpdaterIfRemove(){
+;     run git clone https://github.com/bennyboy743/OBandIBComsTracker.git
+;     Sleep, 2000
+;     FileMove, %A_ScriptDir%\OBandIBComsTracker\updater.ahk, %A_ScriptDir%
+;     Sleep, 2000
+;     FileRemoveDir, %A_ScriptDir%\OBandIBComsTracker, 1
+; }
 getLatestReleaseInfo()
 
 ;--------------------------------

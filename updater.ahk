@@ -1,22 +1,22 @@
 ﻿
 
-getLatestReleaseByGit()
-{
-	Process, Close, salesTrackerComs.exe
-	FileDelete, %A_ScriptDir%\salesTrackerComs.exe
-	Sleep, 2000
-	run git clone https://github.com/bennyboy743/OBandIBComsTracker.git
-	Sleep, 2000
-	FileMove, %A_ScriptDir%\OBandIBComsTracker\salesTrackerComs.exe, %A_ScriptDir%
-	sleep,2000
-	FileMove, %A_ScriptDir%\OBandIBComsTracker\salesTrackerComs.ahk, %A_ScriptDir%
-	Sleep, 2000
-	FileRemoveDir, %A_ScriptDir%\OBandIBComsTracker, 1
-	run salesTrackerComs.exe
+; getLatestReleaseByGit()
+; {
+; 	Process, Close, salesTrackerComs.exe
+; 	FileDelete, %A_ScriptDir%\salesTrackerComs.exe
+; 	Sleep, 2000
+; 	run git clone https://github.com/bennyboy743/OBandIBComsTracker.git
+; 	Sleep, 2000
+; 	FileMove, %A_ScriptDir%\OBandIBComsTracker\salesTrackerComs.exe, %A_ScriptDir%
+; 	sleep,2000
+; 	FileMove, %A_ScriptDir%\OBandIBComsTracker\salesTrackerComs.ahk, %A_ScriptDir%
+; 	Sleep, 2000
+; 	FileRemoveDir, %A_ScriptDir%\OBandIBComsTracker, 1
+; 	run salesTrackerComs.exe
 
 	
 	
-}
+; }
 ;getLatestReleaseInfo()
 
 getUpdateFromReleaseInfo(){
