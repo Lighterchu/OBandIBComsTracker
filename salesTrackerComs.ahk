@@ -18,7 +18,7 @@ Gui, Font,, Lucida Fax
 
 
 Gui, Add, Text,cRed , Track Your Coms, Put You're Heart Towards Sales
-Gui, Add, Text,cblue y5 x+100 , beta Version 1.0.2
+Gui, Add, Text,cblue y5 x+100 , beta Version 1.0.0
 ;Gui, Add, DropDownList, w182 y30 x50 vTemp AltSubmit, Coms Catergory  || MOBILES SIMS | HARDWARE |  HANDSETS
 
 
@@ -29,7 +29,12 @@ Gui, Add, Text,cblue y5 x+100 , beta Version 1.0.2
 ;}
 
 Gui, +AlwaysOnTop
-global test := 100
+global oldComs = := []
+global CurrentComs := []
+
+
+
+
 Gui, Add, Tab3, x0 y20 w500 h400, NBN|HARDWARE|MOBILE SIMS DATA ONLY|MOBILE SIMS VOICE AND DATA|5G MOBILE VOICE AND DATA|VOIP PHONE|MOBILE HANDSETS|
 Gui, Show, w520 h580, OutBounder Comms Tracker,Gui
 
@@ -175,7 +180,7 @@ Gui, Add, Edit, r1 vtotalAmount x130 y450 w100 +ReadOnly,
 Gui, Add, Text, x20 y500 cRed , Edit Total Coms: 
 Gui, Add, Edit, r1 vEdittotalAmount x130 y500 w100,
 Gui, Add, Button, w100 h40 y540 x0 gSaveBtn, Save Edit
-Gui, Add, Button, w100 h40 y540 x+30 gUpdate, Update App
+Gui, Add, Button, w100 h40 y540 x+30 gUndoBtn, Undo last Comms
 
 
 
@@ -198,19 +203,49 @@ Return
 ;#--------------------FUNCTIONS--------------------------
 AddToTotal(amount)
 {
+
  amountTotal += %amount%
+ CurrentComs.Push(amountTotal)
+ udatingComsHistoyFile(amountTotal)
  GuiControl, , totalAmount, $%amountTotal%
- test := 500
+ 
+}
 
+udatingComsHistoyFile(amount){
+    FileAppend, $%amount% `n, %A_WorkingDir%\ComsHistory.txt
+}
 
- ;HideComPage()
- ;msgBox, %hight%
+UndoBtnFunction(){
+    ; msgBox, % CurrentComs.Length()
+    if(CurrentComs.Length() > 1 ) {
+        CurrentComs.pop()
+        for k, v in CurrentComs {
+            GuiControl, , totalAmount, $%v%
+            amountTotal = v
+
+        }
+    }else{
+        msgBox, Cant undo anymore, sorry :(
+    }
+       
+    
+    ;MsgBox % CurrentComs 
 
 }
+
+
+
+UndoBtn:
+   UndoBtnFunction()
+   return
+
+
+
 
 SaveBtn:
     Gui, submit, nohide
     amountTotal = %EdittotalAmount%
+    CurrentComs.Push(amountTotal)
     GuiControl, , totalAmount, $%EdittotalAmount%
     
     
