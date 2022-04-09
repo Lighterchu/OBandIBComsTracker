@@ -44,9 +44,10 @@ Gui, Show, w520 h580, OutBounder Comms Tracker,Gui
 Gui, tab, 1
 Gui, Add, Button,   w100 h30 y+47 gnbn25Btn vbtn25 ,25/10 NBN 
 Gui, Add, Button,   w100 h30 y110 x+10 gnbn250/25Btn vbtn250 ,250/25 NBN 
-Gui, Add, Button,   w100 h30 y150 x+10 gnbn250/100Btn vbtn100 ,250/100 NBN 
-Gui, Add, Button,   w100 h30 y150 x12 gnbn1000/50Btn vbtn1000 ,1000/50 NBN 
-Gui, Add, Button,   w100 h30 y150 x+10 gFWBtn vbtn75 , 75/10 FW NBN 
+Gui, Add, Button,   w100 h30 y150 x12 gnbn250/100Btn vbtn100 ,250/100 NBN 
+Gui, Add, Button,   w100 h30 y150 x+10 gnbn1000/50Btn vbtn1000 ,1000/50 NBN 
+
+
 
 
 Gui, Add, Text,  cRed vtext50 , Plan For 50/20
@@ -201,18 +202,24 @@ Return
 ;#----------------------------------------------
 
 ;#--------------------FUNCTIONS--------------------------
-AddToTotal(amount)
+AddToTotal(amount,item = "nothing")
 {
 
  amountTotal += %amount%
  CurrentComs.Push(amountTotal)
- udatingComsHistoyFile(amountTotal)
+ udatingComsHistoyFile(amountTotal, item)
  GuiControl, , totalAmount, $%amountTotal%
  
 }
 
-udatingComsHistoyFile(amount){
-    FileAppend, $%amount% `n, %A_WorkingDir%\ComsHistory.txt
+udatingComsHistoyFile(amount,item){
+    if WinExist("ComsHistory.txt - Notepad"){
+        WinClose ; Use the window found by WinExist.
+        run, %A_WorkingDir%\ComsHistory.txt
+    }
+     
+
+    FileAppend, $%amount% %item% `n, %A_WorkingDir%\ComsHistory.txt
 }
 
 UndoBtnFunction(){
@@ -319,9 +326,9 @@ getLatestReleaseInfo()
 Picked50/20:  
  GuiControlGet, EverydayNBN	
  if( EverydayNBN = 1 ) {
-	AddToTotal(3)
+	AddToTotal(3, "50/20 NBN 500GB")
  }else {
-	AddToTotal(round(4.5,1))
+	AddToTotal(4.5, "50/20 NBN Unlimted")
  }
  return
  
@@ -329,9 +336,9 @@ Picked50/20:
 
  GuiControlGet, MidPlanNBN	
  if( MidPlanNBN = 1 ) {
-	AddToTotal(3.75)
+	AddToTotal(3.75, "75/20 NBN 500GB" )
  }else {
-	AddToTotal(5.25)
+	AddToTotal(5.25, "75/20 NBN Unlimted")
  }
  return
  
@@ -339,9 +346,9 @@ Picked50/20:
  
   GuiControlGet, FamilyNBN	
  if( FamilyNBN = 1 ) {
-	AddToTotal(4.5)
+	AddToTotal(4.5, "100/20  NBN 500GB")
  }else {
-	AddToTotal(6)
+	AddToTotal(6, "100/20 NBN Unlimited")
  }
  return
  
@@ -349,41 +356,36 @@ Picked50/20:
  Picked100/40:  
   GuiControlGet, FamilyPlusNBN	
  if( FamilyPlusNBN = 1 ) {
-	AddToTotal(4.5)
+	AddToTotal(4.5, " 100/40 NBN 500GB")
  }else {
-	AddToTotal(6)
+	AddToTotal(6, " 100/40 NBN Unlimted")
  }
  return
 
 nbn25Btn:
 	
     
-	AddToTotal(3)
+	AddToTotal(3, "25/10 NBN")
     return
 
  
 nbn250/25Btn:
 	
     
-	AddToTotal(10.50)
+	AddToTotal(10.50, "250/25 NBN")
     return
 
 
 nbn250/100Btn:
 	
     
-	AddToTotal(10.50)
+	AddToTotal(10.50, "250/100 NBN")
     return
 
 nbn1000/50Btn:
 	
     
-	AddToTotal(13.50)
-    return
-FWBtn:
-	
-    
-	AddToTotal(5.25)
+	AddToTotal(13.50, "1 GIG NBN")
     return
 
 
@@ -393,27 +395,27 @@ FWBtn:
 
 NF:
 	
-    AddToTotal(3)
+    AddToTotal(3, "NF18Mesh")
     return
 NL:
 	
     
-	AddToTotal(4.50)
+	AddToTotal(4.50, "NF18ACV")
     return
 Nest1:
 	
-	AddToTotal(3)
+	AddToTotal(3, "Google Nest")
     return
 Nest2:
 	
     
-	AddToTotal(4.50)
+	AddToTotal(4.50, "Google Nest 2 Pack")
     return
 
 Nest3:
 	
 
-	AddToTotal(7.50)
+	AddToTotal(7.50, "Google Nest 3 Pack")
     return
 
 
@@ -421,12 +423,12 @@ Nest3:
 Mini:
 	
     
-	AddToTotal(7.50)
+	AddToTotal(7.50, "Mini")
     return
 Mighty:
 	
     
-	AddToTotal(7.50)
+	AddToTotal(7.50, "Mighty")
     return
 
 
@@ -435,45 +437,45 @@ Mighty:
 
 ;--bundle sims---
 B5GB:
-	AddToTotal(6)
+	AddToTotal(6, "Mobile Sim Data Only 5GB ")
     return
 
 B25GB:
-	AddToTotal(12)
+	AddToTotal(12, "Mobile Sim Data Only 25GB ")
     return
 
 B40GB:
-	AddToTotal(15)
+	AddToTotal(15, "Mobile Sim Data Only 40GB ")
     return
 
 B60GB:
-	AddToTotal(15)
+	AddToTotal(15, "Mobile Sim Data Only 60GB ")
     return
 
 B100GB:
-	AddToTotal(15)
+	AddToTotal(15,"Mobile Sim Data Only 100GB ")
     return
 ;--------
 ;-Stand alone
 
 S25GB:
-	AddToTotal(4.50)
+	AddToTotal(4.50, "Mobile Sim Data Only 25GB (Stand Alone) ")
     return
 
 S15GB:
-	AddToTotal(6)
+	AddToTotal(6, "Mobile Sim Data Only 15GB (Stand Alone) ")
     return
 
 S30GB:
-	AddToTotal(7.50)
+	AddToTotal(7.50, "Mobile Sim Data Only 30GB (Stand Alone) ")
     return
 
 S50GB:
-	AddToTotal(7.50)
+	AddToTotal(7.50, "Mobile Sim Data Only 50GB (Stand Alone) ")
     return
 
 S80GB:
-	AddToTotal(7.50)
+	AddToTotal(7.50, "Mobile Sim Data Only 80GB (Stand Alone) ")
     return
 ;---
 
@@ -482,53 +484,53 @@ S80GB:
 
 ;--bundle sims---
 V2G:
-	AddToTotal(6)
+	AddToTotal(6, "4G Voice and Data, 2GB")
     return
 
 V5G:
-	AddToTotal(6)
+	AddToTotal(6, "4G Voice and Data, 5GB")
     return
 
 V25G:
-	AddToTotal(12)
+	AddToTotal(12, "4G Voice and Data, 25GB")
     return
 
 V40G:
-	AddToTotal(15)
+	AddToTotal(15, "4G Voice and Data, 40GB")
     return
 
 50G:
-	AddToTotal(15)
+	AddToTotal(15, "4G Voice and Data, 50GB")
     return
 
 1005G:
-	AddToTotal(15)
+	AddToTotal(15, "4G Voice and Data, 100GB")
     return
 ;--------
 ;-Stand alone
 
 VS1G:
-	AddToTotal(3)
+	AddToTotal(3, "4G Voice and Data, 1GB (Standalone)")
     return
 
 VS25G:
-	AddToTotal(4.50)
+	AddToTotal(4.50, "4G Voice and Data, 2.50GB (Standalone)")
     return
 
 VS15G:
-	AddToTotal(6)
+	AddToTotal(6, "4G Voice and Data, 15GB (Standalone)")
     return
 
 VS30G:
-	AddToTotal(7.50)
+	AddToTotal(7.50, "4G Voice and Data, 30GB (Standalone)")
     return
 
 VS50G:
-	AddToTotal(7.50)
+	AddToTotal(7.50, "4G Voice and Data, 50GB (Standalone)")
     return
 
 VS80G:
-	AddToTotal(7.50)
+	AddToTotal(7.50, " 4G Voice and Data, 80GB (Standalone)")
     return
 ;---
 
@@ -538,30 +540,30 @@ VS80G:
 ;-----------------------------------------
 ;-----------5G MOBILE SIMS VOICE AND DATA-------------
 5G10GB:
-	AddToTotal(12)
+	AddToTotal(12, "5G SIM Voice and Data (10GB) ")
     return
 
 5G50GB:
-	AddToTotal(12)
+	AddToTotal(12, "5G SIM Voice and Data (50GB) ")
     return
 
 5G80GB:
-	AddToTotal(12)
+	AddToTotal(12,"5G SIM Voice and Data (80GB) ")
     return
 
 ;-----------------------------------------
 ;-----------VOIP PHONE-------------
 
 Cas:
-	AddToTotal(12)
+	AddToTotal(12,"Casual")
     return
 
 Every:
-	AddToTotal(12)
+	AddToTotal(12,"EveryDay")
     return
 
 International:
-	AddToTotal(12)
+	AddToTotal(12,"International")
     return
 
 ;-----------------------------------------
@@ -570,37 +572,37 @@ International:
 
 LG:
 	
-    AddToTotal(15)
+    AddToTotal(15, "HandSet LG")
     return
 A12:
 	
     
-	AddToTotal(15)
+	AddToTotal(15, "HandSet A12")
     return
 A51:
 	
-	AddToTotal(15)
+	AddToTotal(15, "HandSet A51")
     return
 A71:
 	
     
-	AddToTotal(15)
+	AddToTotal(15,"HandSet A71")
     return
 
 S128GB:
 	
 
-	AddToTotal(15)
+	AddToTotal(15, "HandSet Samsung 128GB")
     return
 S256GB:
 	
     
-	AddToTotal(15)
+	AddToTotal(15, "HandSet Samsung 256GB")
     return
 S512GB:
 	
     
-	AddToTotal(15)
+	AddToTotal(15,"HandSet Samsung 512GB")
     return
 
 
