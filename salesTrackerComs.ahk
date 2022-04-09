@@ -18,8 +18,8 @@ Gui, Font,, Lucida Fax
 
 
 Gui, Add, Text,cRed , Track Your Coms, Put You're Heart Towards Sales
-Gui, Add, Text,cblue y5 x+100 , beta Version 1.0.0
-;Gui, Add, DropDownList, w182 y30 x50 vTemp AltSubmit, Coms Catergory  || MOBILES SIMS | HARDWARE |  HANDSETS
+Gui, Add, Text,cblue y5 x+100 , beta Version 1.0.1
+
 
 
 ;global NBNPage := {
@@ -35,7 +35,7 @@ global CurrentComs := []
 
 
 
-Gui, Add, Tab3, x0 y20 w500 h400, NBN|HARDWARE|MOBILE SIMS DATA ONLY|MOBILE SIMS VOICE AND DATA|5G MOBILE VOICE AND DATA|VOIP PHONE|MOBILE HANDSETS|
+Gui, Add, Tab3, x10 y20 w500 h400, NBN|HARDWARE|MOBILE SIMS DATA ONLY|MOBILE SIMS VOICE AND DATA|5G MOBILE VOICE AND DATA|VOIP PHONE|MOBILE HANDSETS|
 Gui, Show, w520 h580, OutBounder Comms Tracker,Gui
 
 
@@ -97,11 +97,11 @@ Gui, Add, Button,   w100 h40 y195 x+10 gS80GB , 4G DATA Standalone 80GB
 Gui, tab, 4
 
 Gui, Add, Button,   w100 h30 y+0 gV2G , 4G Voice Bundled 2GB 
-Gui, Add, Button,   w100 h30 y10 x60 gV5G , 4G Voice Bundled 5GB 
-Gui, Add, Button,   w100 h30 y65 x120 gV25G  ,4G Voice Bundled 25GB
-Gui, Add, Button,   w100 h30 y100 x+10 gV40G ,4G Voice Bundled 40GB
+Gui, Add, Button,   w100 h30 y65 x120  gV5G , 4G Voice Bundled 5GB 
+Gui, Add, Button,   w100 h30 y65 x230 gV25G  ,4G Voice Bundled 25GB
+Gui, Add, Button,   w100 h30 y100 x120 gV40G ,4G Voice Bundled 40GB
 Gui, Add, Button,   w100 h30 y100 x12  g50G ,4G Voice Bundled 60GB
-Gui, Add, Button,   w100 h30 y100 x+10  g1005G ,4G Voice Bundled 100GB
+Gui, Add, Button,   w100 h30 y100 x230  g1005G ,4G Voice Bundled 100GB
 
 Gui, Add, Button,   w100 h40 y150 x12 gVS1G , 4G Voice Standalone 1GB
 Gui, Add, Button,   w100 h40 y150 x+15 gVS25G , 4G Voice Standalone 2.5GB
@@ -182,7 +182,7 @@ Gui, Add, Text, x20 y500 cRed , Edit Total Coms:
 Gui, Add, Edit, r1 vEdittotalAmount x130 y500 w100,
 Gui, Add, Button, w100 h40 y540 x0 gSaveBtn, Save Edit
 Gui, Add, Button, w100 h40 y540 x+30 gUndoBtn, Undo last Comms
-
+Gui, Add, ListView, r20 w260 h120 x250 y450, Coms|Sold Item
 
 
 
@@ -206,38 +206,54 @@ AddToTotal(amount,item = "nothing")
 {
 
  amountTotal += %amount%
+ ;msgBox % amountTotal
  CurrentComs.Push(amountTotal)
  udatingComsHistoyFile(amountTotal, item)
  GuiControl, , totalAmount, $%amountTotal%
+ LiveUpdateComs(amount, item)
  
 }
 
-udatingComsHistoyFile(amount,item){
-    if WinExist("ComsHistory.txt - Notepad"){
-        WinClose ; Use the window found by WinExist.
-        run, %A_WorkingDir%\ComsHistory.txt
-    }
-     
+LiveUpdateComs(amount, item){
+    LV_Add(1)
+    LV_Modify(1,,amount)
+    ;LV_ModifyCol(3,,amount)
+    ;LV_Add(2, item)
+    
+    
+}
 
-    FileAppend, $%amount% %item% `n, %A_WorkingDir%\ComsHistory.txt
+; 	
+; }
+
+
+; Track()
+; {
+;   LV_Add("calls", 0)
+ 
+; }
+
+
+udatingComsHistoyFile(amount,item){
+    ComsHistory := "%A_WorkingDir%\ComsHistory.txt"
+    if(FileExist(ComsHistory)){
+            if WinExist("ComsHistory.txt - Notepad"){
+            WinClose ; Use the window found by WinExist.
+            FileAppend, $%amount% %item% `n, %A_WorkingDir%\ComsHistory.txt
+            run, %A_WorkingDir%\ComsHistory.txt
+        }
+    }else{
+        ;Making the coms file
+        FileAppend, $%amount% %item% `n, %A_WorkingDir%\ComsHistory.txt
+    }
 }
 
 UndoBtnFunction(){
-    ; msgBox, % CurrentComs.Length()
-    if(CurrentComs.Length() > 1 ) {
-        CurrentComs.pop()
-        for k, v in CurrentComs {
-            GuiControl, , totalAmount, $%v%
-            amountTotal = v
-
-        }
-    }else{
-        msgBox, Cant undo anymore, sorry :(
-    }
-       
+    CurrentComs.pop()
+    NewUpdateComs := CurrentComs[CurrentComs.MaxIndex()]
+    amountTotal := NewUpdateComs
+    GuiControl, , totalAmount, $%NewUpdateComs%
     
-    ;MsgBox % CurrentComs 
-
 }
 
 
