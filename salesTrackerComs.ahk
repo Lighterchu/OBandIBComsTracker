@@ -18,7 +18,7 @@ Gui, Font,, Lucida Fax
 
 
 Gui, Add, Text,cRed , Track Your Coms, Put You're Heart Towards Sales
-Gui, Add, Text,cblue y5 x+100 , beta Version 1.0.2
+Gui, Add, Text,cblue y5 x+100 , beta Version 1.0.0
 
 
 
