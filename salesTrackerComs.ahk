@@ -178,11 +178,11 @@ Gui, Add, Text, x20 y450 cRed , Total Coms:
 Gui, Add, Edit, r1 vtotalAmount x130 y450 w100 +ReadOnly, 
 
 
-Gui, Add, Text, x20 y500 cRed , Edit Total Coms: 
-Gui, Add, Edit, r1 vEdittotalAmount x130 y500 w100,
+; Gui, Add, Text, x20 y500 cRed , Edit Total Coms: 
+; Gui, Add, Edit, r1 vEdittotalAmount x130 y500 w100,
 Gui, Add, Button, w100 h40 y540 x0 gSaveBtn, Save Edit
 Gui, Add, Button, w100 h40 y540 x+30 gUndoBtn, Undo last Comms
-Gui, Add, ListView, r20 w260 h120 x250 y450, Coms|Sold Item
+Gui, Add, ListView, r20 w260 h120 x250 y450, Coms      |Sold Item
 
 
 
@@ -210,17 +210,17 @@ AddToTotal(amount,item = "nothing")
  CurrentComs.Push(amountTotal)
  udatingComsHistoyFile(amountTotal, item)
  GuiControl, , totalAmount, $%amountTotal%
- LiveUpdateComs(amount, item)
+ LiveUpdateComs(amountTotal, item)
  
 }
 
 LiveUpdateComs(amount, item){
-    LV_Add(1)
-    LV_Modify(1,,amount)
-    ;LV_ModifyCol(3,,amount)
-    ;LV_Add(2, item)
-    
-    
+    LV_Add(,"$" + amount,item)
+}
+RemoveFromList(){
+   ;; RowNumber := LV_GetNext()
+   removing :=  LV_GetCount()
+    LV_Delete(removing)  ; Clear the row from the ListView.
 }
 
 ; 	
@@ -253,6 +253,7 @@ UndoBtnFunction(){
     NewUpdateComs := CurrentComs[CurrentComs.MaxIndex()]
     amountTotal := NewUpdateComs
     GuiControl, , totalAmount, $%NewUpdateComs%
+    RemoveFromList()
     
 }
 
