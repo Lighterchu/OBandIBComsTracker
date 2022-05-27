@@ -24,8 +24,8 @@
    }
 
    Sleep, 1500
-   FileRemoveDir, %A_ScriptDir%\pulledUpdate, 1
-   FileRemoveDir, %A_ScriptDir%\newUpdate, 1
+   ;FileRemoveDir, %A_ScriptDir%\pulledUpdate, 1
+   ;FileRemoveDir, %A_ScriptDir%\newUpdate, 1
 
    run, salesTrackerComs.exe
 

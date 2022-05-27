@@ -18,7 +18,7 @@ Gui, Font,, Lucida Fax
 
 
 Gui, Add, Text,cRed , Track Your Coms, Put You're Heart Towards Sales
-Gui, Add, Text,cblue y5 x+100 , beta Version 1.0.0
+Gui, Add, Text,cblue y5 x+100 , beta Version 1.0.3
 
 
 
@@ -64,12 +64,20 @@ Gui, Add, DropDownList, gPicked100/40 AltSubmit vFamilyPlusNBN ,100/40 500GB| 10
 
 Gui, tab, 2
 Gui, Add, Button,   w100 h30 y+20 gNF, NF18MESH 
+Gui, Add, Button,   w100 h30 y+80 gNF20MESH, NF20MESH
+Gui, Add, Button,   w100 h30 y+20 gNF20MeshPoint, NF20MESH Point
+Gui, Add, Button,   w100 h30 y+20 gNF20Mesh2Pack, NF20MESH Point 2 Pack
+Gui, Add, Button,   w100 h30 y+20 gNF20Mesh3Pack, NF20MESH  Point 3 Pack
 Gui, Add, Button,   w100 h30 y80 x+10  gNL ,NL1901
 Gui, Add, Button,   w100 h30 y115 x12  gNest1 ,Nest 1 pack 
 Gui, Add, Button,   w100 h30 y115 x+10  gNest2 ,Nest 2 pack 
 Gui, Add, Button,   w100 h30 y115 x+15 gNest3, Nest 3 pack 
 Gui, Add, Button,   w100 h30 y150 x12  gMini,Fetch Mini
 Gui, Add, Button,   w100 h30 y150 x+10 gMighty, Fetch Mighty
+
+
+
+
 
 ;--------------------------------
 
@@ -205,14 +213,14 @@ Return
 AddToTotal(amount,item = "nothing")
 {
      amount :=  RegExReplace(amount, "\d\K(?=\d{3}(\.|,))", ",")
-    msgBox % amount
+  
   
     amountTotal += %amount%
     ;msgBox % amountTotal
-    ;CurrentComs.Push(amountTotal)
-    ;udatingComsHistoyFile(amountTotal, item)
+    CurrentComs.Push(amountTotal)
+    udatingComsHistoyFile(amountTotal, item)
     GuiControl, , totalAmount, $%amountTotal%
-    ;LiveUpdateComs(amountTotal, item)
+    LiveUpdateComs(amountTotal, item)
  
 }
 
@@ -220,20 +228,11 @@ LiveUpdateComs(amount, item){
     LV_Add(,"$" + amount,item)
 }
 RemoveFromList(){
-   ;; RowNumber := LV_GetNext()
+   
    removing :=  LV_GetCount()
     LV_Delete(removing)  ; Clear the row from the ListView.
 }
 
-; 	
-; }
-
-
-; Track()
-; {
-;   LV_Add("calls", 0)
- 
-; }
 
 
 udatingComsHistoyFile(amount,item){
@@ -416,6 +415,23 @@ NF:
 	
     AddToTotal(3, "NF18Mesh")
     return
+NF20MESH:
+	
+    AddToTotal(3, "NF20Mesh")
+    return
+
+NF20MeshPoint:
+	AddToTotal(3, "NS-02 Mesh Point")
+    return
+NF20Mesh2Pack:
+	
+    AddToTotal(4.50, "NF20MESH NS02 Package (2 Pack)")
+    return
+NF20Mesh3Pack:
+	
+    AddToTotal(7.50, "NF20MESH NS02 Package (3 Pack)")
+    return
+
 NL:
 	
     
